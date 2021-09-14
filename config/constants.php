@@ -12,6 +12,7 @@ return [
     */
 
     'payout' => [
-        'transaction_limit' => env('PAYOUT_TRANSACTION_LIMIT', 100)
+        'default_transaction_max_amount' => env('TRANSACTION_MAX_AMOUNT', 100),
+        'supported_currencies' => ['EUR', 'GBP', 'USD', 'eur', 'gbp', 'usd']
     ]
 ];

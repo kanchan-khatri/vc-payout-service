@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('sellers', [SellerController::class, 'index']);
 
-Route::post('generatePayouts', [PayoutController::class, 'generate']);
+Route::post('createPayouts', [PayoutController::class, 'createPayouts']);
 
 
 // Route::post('/generatePayouts', function (Request $request) {

@@ -16,10 +16,10 @@ class Payout extends Model
 
     public static function createRecords($payoutRecords) {
         DB::beginTransaction();
-        try {            
+        try {
             $payoutItemRecords = array();
             foreach($payoutRecords as &$record) {
-                $row = ['currency_code' => $record['currency_code'],
+                $row = ['currency_code' => strtoupper($record['currency_code']),
                         'seller_id' => $record['seller_id'],
                         'amount' => $record['amount']
                     ];
