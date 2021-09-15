@@ -35,7 +35,7 @@ class PayoutController extends Controller
                 'soldItems' => 'required|array|min:1',
                 "soldItems.*.item_id" => "required|integer",
                 "soldItems.*.amount" => "required|numeric",
-                "soldItems.*.currency" => [
+                "soldItems.*.currency_code" => [
                     "required",
                     "string",
                     "size:3", 
@@ -64,6 +64,6 @@ class PayoutController extends Controller
      */
     public function index()
     {
-        return Payout::all();
+        return ResponseHelper::getSuccessResponse(Payout::getAllRecords());
     }
 }

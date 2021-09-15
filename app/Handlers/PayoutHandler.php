@@ -31,10 +31,10 @@ class PayoutHandler {
             }
 
             //Form Multi Dimesional Array forming group of currency and seller
-        	if(!isset($payoutsGroupData[$soldItem['currency']])) {
-        		$payoutsGroupData[$soldItem['currency']] = array();
+        	if(!isset($payoutsGroupData[$soldItem['currency_code']])) {
+        		$payoutsGroupData[$soldItem['currency_code']] = array();
         	}
-            $payoutsGroupData[$soldItem['currency']][$soldItem['seller_id']][] = $soldItem;
+            $payoutsGroupData[$soldItem['currency_code']][$soldItem['seller_id']][] = $soldItem;
         }
         
         //Throw Error if Invalid SoldItem Records found
@@ -66,7 +66,7 @@ class PayoutHandler {
         			$recordIndex++;
         		}
         	}
-        }        
+        }
         Payout::createRecords($payoutRecords);
         return $payoutRecords;
 	}
@@ -75,7 +75,7 @@ class PayoutHandler {
     {
         $row = [
                 'id' => $soldItem['item_id'], 
-                'currency_code' => $soldItem['currency'],
+                'currency_code' => $soldItem['currency_code'],
                 'seller_id' => $soldItem['seller_id']
             ];
         return Item::where($row)->exists();

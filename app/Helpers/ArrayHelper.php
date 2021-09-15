@@ -21,7 +21,7 @@ class ArrayHelper {
 				$i++;
 			}
 			$splitArray[$i][] = $value;
-		}		
+		}
 		return $splitArray;
 	}
 

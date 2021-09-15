@@ -72,3 +72,4 @@ Main Focus while impletementing this solution is to
 3. each function is reusable and well defined and returning only one datatype
 4. Handle as many exceptions or edge cases
 5. Treat this service as a down stream service where data is passed on from say 'payments-service' to communicate sold items records and hence, validations for payouts will be limited to create the payouts
+6. Transaction Inserts to avoid data pollution
