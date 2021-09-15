@@ -18,15 +18,19 @@ class PayoutController extends Controller
       $this->payoutHandlerObj = new PayoutHandler();
     }
 
-    public function index()
-    {
-        return Payout::all();
-    }
 
+
+    /**
+     * Creates the payouts for given sold items list
+     * Returns success/failed response
+     * @return response
+     */
     public function createPayouts(Request $request)
     {
         try {
-            $requestArr = $request->json()->all();
+            
+            //Using Validator to validate the input request payload.
+            $requestPayload = $request->json()->all();
             $validator = Validator::make($request->all(), [
                 'soldItems' => 'required|array|min:1',
                 "soldItems.*.item_id" => "required|integer",
@@ -44,11 +48,22 @@ class PayoutController extends Controller
                 return ResponseHelper::getFailedResponse($validator->messages(), 422);
             }
 
-            $this->payoutHandlerObj->createPayoutsBySoldItems($requestArr['soldItems']);
-            
+            $payoutsData = $this->payoutHandlerObj->
+                createPayoutsBySoldItems($requestPayload['soldItems']);
             return ResponseHelper::getSuccessResponse($payoutsData);
+
         } catch (Exception $e) {
             return ResponseHelper::getFailedResponse($e->getMessage(),500);
         }
+    }
+
+    /**
+     * Get All Payout Records
+     *
+     * @return void
+     */
+    public function index()
+    {
+        return Payout::all();
     }
 }

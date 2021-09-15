@@ -10,10 +10,19 @@ use App\Models\TransactionConfig;
 
 class PayoutHandler {
 
+    /**
+     * Creates the payouts for given sold items list
+     * Categorises payouts for seller and currency and generates payout-records
+     * based on the max transaction value configured for each currency
+     * Also, maps payout items for every payout transaction
+     * Throws Error
+     * @return PayoutRecords
+     */
 	public function createPayoutsBySoldItems($soldItems) {
 		$payoutsGroupData = array();
         foreach($soldItems as &$soldItem) {
-            // Validate SoldItem Record
+            
+            //Validate SoldItem Record
             $invalidSoldItemRecordExists = false;
             $invalidSoldItemRecords = array();
             if(!$this->isValidSoldItemRecord($soldItem)) {
@@ -31,7 +40,7 @@ class PayoutHandler {
         //Throw Error if Invalid SoldItem Records found
         if($invalidSoldItemRecordExists) {
             $error = ValidationException::withMessages(['invalidRecords'=>$invalidSoldItemRecords]);            
-            // throw $error;
+            throw $error;
         }
 
         //Generate Payouts
@@ -43,7 +52,7 @@ class PayoutHandler {
             $maxTransactionAmount = TransactionConfig::getMaxTransactionAmount($currencyCode);
 
         	foreach($soldItemsForSeller as $sellerId => &$soldItems) {
-        		$transactions = ArrayHelper::splitArrayByKey($soldItems, $maxTransactionAmount, 'amount');
+        		$transactions = ArrayHelper::splitArrayByKeyThreshold($soldItems, $maxTransactionAmount,'amount');
         		foreach($transactions as &$records) {
         			$payoutRecords[$recordIndex] = [
         				'seller_id'=>$sellerId,
@@ -59,6 +68,7 @@ class PayoutHandler {
         	}
         }        
         Payout::createRecords($payoutRecords);
+        return $payoutRecords;
 	}
 
     public function isValidSoldItemRecord($soldItem)

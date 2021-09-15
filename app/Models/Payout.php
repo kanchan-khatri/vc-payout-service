@@ -14,6 +14,12 @@ class Payout extends Model
 
     protected $fillable = ['currency_code','seller_id','amount'];
 
+    /**
+     * Creates payout records in DB
+     * For every row, associates payout items
+     * Throws Error
+     * @return Boolean
+     */
     public static function createRecords($payoutRecords) {
         DB::beginTransaction();
         try {

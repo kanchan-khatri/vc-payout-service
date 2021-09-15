@@ -20,11 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('sellers', [SellerController::class, 'index']);
+Route::get('payouts', [PayoutController::class, 'index'])
 
 Route::post('createPayouts', [PayoutController::class, 'createPayouts']);
-
-
-// Route::post('/generatePayouts', function (Request $request) {
-//     return $request->user();
-// });
