@@ -23,7 +23,7 @@ This will make use of max transaction amount configuration for every currency to
 
 
 Sample Request Body:
-	```
+```json
 	{"soldItems":[
 		{"item_id":1, "amount": 110, "currency": "us"},
 		{"item_id":2, "amount": 100, "currency": "eur", "seller_id": 1},
@@ -40,17 +40,35 @@ Sample Request Body:
 		{"item_id":13, "amount": 120, "currency": "USD", "seller_id": 1},
 		{"item_id":14, "amount": 102, "currency": "usd", "seller_id": 1}
 	]}	
-	```
+```
+
 Response Body:
 
 On Failure:
-	```
+```json
 	{"success":false,"error":<error-json-list>}
-	```
+
+    {
+        "success":false,
+        "error":{
+            "soldItems.0.currency":
+                ["The soldItems.0.currency must be 3 characters.","The selected soldItems.0.currency is invalid."],
+            "soldItems.0.seller_id":["The soldItems.0.seller_id field is required."]
+         }
+     }
+```
 On Success
-	```
+```json
 	{"success":true,"data":<list-payout-records>}
-	```
+```
 
 2. GET /api/payouts
 Lists all payouts   
+
+## Solution Focus
+Main Focus while impletementing this solution is to 
+1. solve the problem defined
+2. ensure best oop practises are followed.
+3. each function is reusable and well defined and returning only one datatype
+4. Handle as many exceptions or edge cases
+5. Treat this service as a down stream service where data is passed on from say 'payments-service' to communicate sold items records and hence, validations for payouts will be limited to create the payouts
