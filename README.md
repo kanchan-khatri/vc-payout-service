@@ -5,16 +5,16 @@ Payout For Sold Items
 As described in the problem statement, this entity is the unit to be sold.
 
 2. Seller
-This defines the seller of the Item to be sold
+Every Item is associated with a seller
 
 3. Payout
-For every seller, Sold Items amount is settled to the seller account and a payout record is created.
+For every sold item, amount is settled to the seller's account creating a payout record for seller, items sold and total amount of items.
 
 4. PayoutItems
-For every payout, list of payout items are being saved in PayoutItem
+A payout created for a seller can have list of items. These items associated with every payout are saved in this table
 
 5. TransactionConfig
-For a given currency, max amount of transaction can be configured.
+For a given currency, max amount of transaction limit can be configured here.
 
 ## APIs
 1. POST /api/createPayout
@@ -41,6 +41,9 @@ Sample Request Body:
 		{"item_id":14, "amount": 102, "currency": "usd", "seller_id": 1}
 	]}	
 ```
+Here, amount is the total amount (in specific currency) of item units of a seller being sold 
+
+Eg: Item.amount=10, Item.id=1, no_of_items_sold=10, soldItems.0.amount = 100 and soldItems.0.currency = Item.currency
 
 Response Body:
 
@@ -72,4 +75,12 @@ Main Focus while impletementing this solution is to
 3. each function is reusable and well defined and returning only one datatype
 4. Handle as many exceptions or edge cases
 5. Treat this service as a down stream service where data is passed on from say 'payments-service' to communicate sold items records and hence, validations for payouts will be limited to create the payouts
-6. Transaction Inserts to avoid data pollution
+6. Transaction Updates to avoid data pollution
+
+## Commands
+    ```
+    php artisan migrate    
+    php artisan db:seed --class=SellersTableSeeder
+    php artisan db:seed --class=ItemsTableSeeder
+    php artisan db:seed --class=TransactionConfigTableSeeder
+    ```
