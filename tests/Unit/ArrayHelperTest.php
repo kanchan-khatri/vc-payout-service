@@ -21,21 +21,30 @@ class ArrayHelperTest extends TestCase
             ['item_id'=>3, 'amount'=> 20],
             ['item_id'=>4, 'amount'=> 30],
             ['item_id'=>5, 'amount'=> 50],
-            ['item_id'=>6, 'amount'=> 10]
+            ['item_id'=>6, 'amount'=> 165]
         ];
         $expectedResponse1 = [
             [
                 ['item_id'=>1, 'amount'=> 10],
-                ['item_id'=>6, 'amount'=> 10],
-                ['item_id'=>2, 'amount'=> 15]
+                ['item_id'=>2, 'amount'=> 15],
+                ['item_id'=>6, 'amount'=> 15]
             ],
             [
                 ['item_id'=>3, 'amount'=> 20],
                 ['item_id'=>4, 'amount'=> 30]
             ],
             [
-                ['item_id'=>5, 'amount'=> 50]
+                ['item_id'=>5, 'amount'=> 50],                
             ],
+            [
+                ['item_id'=>6, 'amount'=> 50],                
+            ],
+            [
+                ['item_id'=>6, 'amount'=> 50],                
+            ],
+            [
+                ['item_id'=>6, 'amount'=> 50],                
+            ]
         ];
             
         $this->assertEquals($expectedResponse1, 
