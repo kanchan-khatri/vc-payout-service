@@ -8,8 +8,8 @@ class ArrayHelper {
 
 	public static function splitArrayByKeyThreshold($inputList, $maxValue, $key) {
 		$splitArray = array();
-		if($maxValue < $inputList[0][$key]) {
-			throw new Exception('$maxValue can not be less than minimum value of key element');
+		if($maxValue <= 0) {
+			throw new Exception('$maxValue can not be <= 0');
 		}
 		// Handle record value more than maxvalue case. Split by fraction
 		$repeatRecords = 0;
